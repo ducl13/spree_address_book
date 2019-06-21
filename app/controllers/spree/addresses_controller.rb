@@ -14,7 +14,7 @@ if defined?(Spree::Frontend)
         flash[:notice] = I18n.t(:successfully_created, scope: :address_book)
         redirect_to account_path
       else
-        render :action => 'new'
+        redirect_to account_path
       end
     end
 
@@ -23,11 +23,20 @@ if defined?(Spree::Frontend)
     end
 
     def edit
-      session['spree_user_return_to'] = request.env['HTTP_REFERER']
+      # session['spree_user_return_to'] = request.env['HTTP_REFERER']
+      @address = Spree::Address.find(params[:id])
+      respond_to do |format|
+        format.html
+        format.js
+      end
     end
 
     def new
       @address = Spree::Address.default
+      respond_to do |format|
+        format.html
+        format.js
+      end
     end
 
     def update
