@@ -23,7 +23,7 @@ if defined?(Spree::Frontend)
     end
 
     def edit
-      # session['spree_user_return_to'] = request.env['HTTP_REFERER']
+      session['spree_user_return_to'] = request.env['HTTP_REFERER']
       @address = Spree::Address.find(params[:id])
       respond_to do |format|
         format.html
