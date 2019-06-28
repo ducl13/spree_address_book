@@ -3,6 +3,7 @@ if defined?(Spree::Frontend)
     helper Spree::AddressesHelper
 
     after_action :normalize_addresses, :only => :update
+    after_action :update_user_address, :only => :update
     before_action :set_addresses, :only => :update
 
     protected
@@ -44,6 +45,12 @@ if defined?(Spree::Frontend)
       end
 
       ship_address.update_attribute(:user_id, spree_current_user.try(:id))
+    end
+
+    def update_user_address
+      if params[:default_user_address].present? && params[:default_user_address].to_i === 1
+          spree_current_user.update_attributes(bill_address_id: @order.bill_address_id, ship_address_id: @order.ship_address_id)
+        end
     end
   end
 end
